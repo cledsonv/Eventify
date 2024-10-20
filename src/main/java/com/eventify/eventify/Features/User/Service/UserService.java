@@ -2,12 +2,14 @@ package com.eventify.eventify.Features.User.Service;
 
 import com.eventify.eventify.Core.Security.JwtUtil;
 import com.eventify.eventify.Features.User.Entities.User;
+import com.eventify.eventify.Features.User.Enum.Role;
 import com.eventify.eventify.Features.User.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,10 +30,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateUserRole(String email, Role role) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRole(role);
+        return userRepository.save(user);
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
 
     public User authenticate(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Credenciais inválidas");
         }
         return user;
