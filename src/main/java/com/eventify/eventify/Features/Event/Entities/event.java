@@ -1,13 +1,19 @@
 package com.eventify.eventify.Features.Event.Entities;
 
+import com.eventify.eventify.Features.Registration.Entities.Registration;
 import com.eventify.eventify.Features.User.Entities.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Event {
+public class event {
+
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
