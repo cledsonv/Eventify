@@ -55,10 +55,6 @@ public class RegistrationController {
         return modelMapper.map(registration, RegistrationDTO.class);
     }
 
-    private Registration convertToEntity(RegistrationDTO dto) {
-        return modelMapper.map(dto, Registration.class);
-    }
-
     private EventDTO convertToDTO(Event event) {
         return modelMapper.map(event, EventDTO.class);
     }

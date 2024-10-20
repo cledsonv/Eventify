@@ -5,6 +5,7 @@ import com.eventify.eventify.Features.User.Entities.User;
 import jakarta.persistence.*;
 
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class Registration {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    private LocalDate createdAt;
+    private Date createdAt;
 
     public Long getId() {
         return id;
@@ -48,11 +49,11 @@ public class Registration {
         this.event = event;
     }
 
-    public LocalDate getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }

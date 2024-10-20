@@ -12,7 +12,10 @@ import com.eventify.eventify.Features.User.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,12 +38,12 @@ public class RegistrationService {
     public Registration registerToEvent(Long eventId, User user) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new ItemNotFoundException("Evento não encontrado"));
         if (registrationRepository.existsByUserAndEvent(user, event)) {
-            throw new IllegalStateException("Usuário já registrado no evento");
+            throw new IllegalStateException("Usuário já esta registrado no evento");
         }
         Registration registration = new Registration();
         registration.setEvent(event);
         registration.setUser(user);
-        registration.setCreatedAt(LocalDate.now());
+        registration.setCreatedAt(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         return registrationRepository.save(registration);
     }
 

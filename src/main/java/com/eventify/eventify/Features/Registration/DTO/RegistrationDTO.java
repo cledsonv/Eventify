@@ -16,7 +16,7 @@ public class RegistrationDTO {
     private Long eventId;
 
     @NotNull(message = "Registration date cannot be null")
-    private LocalDate createdAt;
+    private Date createdAt;
 
     public Long getId() {
         return id;
@@ -42,11 +42,11 @@ public class RegistrationDTO {
         this.eventId = eventId;
     }
 
-    public @NotNull(message = "Registration date cannot be null") LocalDate getCreatedAt() {
+    public @NotNull(message = "Registration date cannot be null") Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(@NotNull(message = "Registration date cannot be null") LocalDate createdAt) {
+    public void setCreatedAt(@NotNull(message = "Registration date cannot be null") Date createdAt) {
         this.createdAt = createdAt;
     }
 }
