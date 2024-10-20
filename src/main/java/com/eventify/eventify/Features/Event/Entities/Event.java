@@ -1,5 +1,6 @@
 package com.eventify.eventify.Features.Event.Entities;
 
+import com.eventify.eventify.Features.User.Entities.User;
 import jakarta.persistence.*;
 
 import java.util.Date;

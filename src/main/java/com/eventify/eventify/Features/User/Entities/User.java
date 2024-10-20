@@ -1,7 +1,10 @@
 package com.eventify.eventify.Features.User.Entities;
 
 import com.eventify.eventify.Features.User.Enum.Role;
+import com.eventify.eventify.Features.Event.Entities.Event;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class User {
