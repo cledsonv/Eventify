@@ -9,21 +9,24 @@ import java.util.List;
 
 @Entity
 public class Event {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private Date data;
-    private String local;
-    private String descricao;
+
+    private String name;
+
+    private Date date;
+
+    private String location;
+
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "organizador_id")
-    private User organizador;
+    @JoinColumn(name = "organizer_id")
+    private User organizer;
 
-    @OneToMany(mappedBy = "evento")
-    private List<Registration> inscricoes;
+    @OneToMany(mappedBy = "event")
+    private List<Registration> registrations;
 
 
     public Long getId() {
@@ -34,51 +37,51 @@ public class Event {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDate() {
+        return date;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getLocal() {
-        return local;
+    public String getLocation() {
+        return location;
     }
 
-    public void setLocal(String local) {
-        this.local = local;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public User getOrganizador() {
-        return organizador;
+    public User getOrganizer() {
+        return organizer;
     }
 
-    public void setOrganizador(User organizador) {
-        this.organizador = organizador;
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
     }
 
-    public List<Registration> getInscricoes() {
-        return inscricoes;
+    public List<Registration> getRegistrations() {
+        return registrations;
     }
 
-    public void setInscricoes(List<Registration> inscricoes) {
-        this.inscricoes = inscricoes;
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
     }
 }

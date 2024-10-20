@@ -5,6 +5,7 @@ import com.eventify.eventify.Features.Registration.DTO.RegistrationDTO;
 import com.eventify.eventify.Features.Registration.Entities.Registration;
 import com.eventify.eventify.Features.Registration.Services.RegistrationService;
 import com.eventify.eventify.Features.User.Entities.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping("/events/{eventId}/register")
-    public RegistrationDTO registerToEvent(@PathVariable Long eventId, @RequestBody RegistrationDTO registrationDTO) {
+    public RegistrationDTO registerToEvent(@PathVariable Long eventId, @Valid @RequestBody RegistrationDTO registrationDTO) {
         Registration registration = convertToEntity(registrationDTO);
         Registration savedRegistration = registrationService.registerToEvent(registration);
         return convertToDTO(savedRegistration);
@@ -26,13 +27,13 @@ public class RegistrationController {
         registrationService.cancelRegistration(id);
     }
 
-    // Conversão de DTO para entidade e vice-versa
+    // Conversion between DTO and Entity
     private RegistrationDTO convertToDTO(Registration registration) {
         RegistrationDTO dto = new RegistrationDTO();
         dto.setId(registration.getId());
-        dto.setUsuarioId(registration.getUsuario().getId());
-        dto.setEventoId(registration.getEvento().getId());
-        dto.setDataInscricao(registration.getDataInscricao().toString());
+        dto.setUserId(registration.getUser().getId());
+        dto.setEventId(registration.getEvent().getId());
+        dto.setRegistrationDate(registration.getRegistrationDate().toString());
         return dto;
     }
 
@@ -40,12 +41,12 @@ public class RegistrationController {
         Registration registration = new Registration();
         registration.setId(dto.getId());
         User user = new User();
-        user.setId(dto.getUsuarioId());
-        registration.setUsuario(user);
+        user.setId(dto.getUserId());
+        registration.setUser(user);
         Event event = new Event();
-        event.setId(dto.getEventoId());
-        registration.setEvento(event);
-        registration.setDataInscricao(java.sql.Date.valueOf(dto.getDataInscricao()));
+        event.setId(dto.getEventId());
+        registration.setEvent(event);
+        registration.setRegistrationDate(java.sql.Date.valueOf(dto.getRegistrationDate()));
         return registration;
     }
 }
