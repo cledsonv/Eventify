@@ -1,7 +1,7 @@
 package com.eventify.eventify.Features.Event.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.eventify.eventify.Features.Event.Entities.Event;
+import com.eventify.eventify.Features.Event.Entities.event;
 import com.eventify.eventify.Features.Event.Services.EventService;
 
 import java.util.List;
@@ -14,17 +14,17 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public Event createEvent(@RequestBody Event event) {
+    public event createEvent(@RequestBody event event) {
         return eventService.createEvent(event);
     }
 
     @GetMapping
-    public List<Event> listEvents() {
+    public List<event> listEvents() {
         return eventService.listEvents();
     }
 
     @GetMapping("/{id}")
-    public Optional<Event> getEvent(@PathVariable Long id) {
+    public Optional<event> getEvent(@PathVariable Long id) {
         return eventService.getEvent(id);
     }
 

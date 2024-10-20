@@ -1,6 +1,6 @@
 package com.eventify.eventify.Features.Registration.Repositories;
 
-import com.eventify.eventify.Features.Event.Entities.Event;
+import com.eventify.eventify.Features.Event.Entities.event;
 import com.eventify.eventify.Features.Registration.Entities.Registration;
 import com.eventify.eventify.Features.User.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
-    List<Registration> findByEvento(Event evento);
+    List<Registration> findByEvento(event evento);
     List<Registration> findByUsuario(User usuario);
 }

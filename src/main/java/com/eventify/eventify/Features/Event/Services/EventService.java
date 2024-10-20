@@ -1,6 +1,6 @@
 package com.eventify.eventify.Features.Event.Services;
 
-import com.eventify.eventify.Features.Event.Entities.Event;
+import com.eventify.eventify.Features.Event.Entities.event;
 import com.eventify.eventify.Features.Event.Repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +13,15 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public Event createEvent(Event event) {
+    public event createEvent(event event) {
         return eventRepository.save(event);
     }
 
-    public List<Event> listEvents() {
+    public List<event> listEvents() {
         return eventRepository.findAll();
     }
 
-    public Optional<Event> getEvent(Long id) {
+    public Optional<event> getEvent(Long id) {
         return eventRepository.findById(id);
     }
 

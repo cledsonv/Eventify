@@ -1,7 +1,7 @@
 package com.eventify.eventify.Features.User.Entities;
 
 import com.eventify.eventify.Features.User.Enum.Role;
-import com.eventify.eventify.Features.Event.Entities.Event;
+import com.eventify.eventify.Features.Event.Entities.event;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "organizer")
-    private List<Event> eventsOrganized;
+    private List<event> eventsOrganized;
 
     public User() {
     }
@@ -51,11 +51,11 @@ public class User {
         this.role = role;
     }
 
-    public List<Event> getEventsOrganized() {
+    public List<event> getEventsOrganized() {
         return eventsOrganized;
     }
 
-    public void setEventsOrganized(List<Event> eventsOrganized) {
+    public void setEventsOrganized(List<event> eventsOrganized) {
         this.eventsOrganized = eventsOrganized;
     }
 
