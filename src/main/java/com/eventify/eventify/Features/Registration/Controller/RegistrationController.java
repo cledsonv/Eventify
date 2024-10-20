@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/registrations")
 public class RegistrationController {
+
     @Autowired
     private RegistrationService registrationService;
 
@@ -27,7 +28,6 @@ public class RegistrationController {
         registrationService.cancelRegistration(id);
     }
 
-    // Conversion between DTO and Entity
     private RegistrationDTO convertToDTO(Registration registration) {
         RegistrationDTO dto = new RegistrationDTO();
         dto.setId(registration.getId());

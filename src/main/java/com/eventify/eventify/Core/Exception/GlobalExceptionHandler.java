@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             ItemNotFoundException.class,
-            UsernameNotFoundException.class
+            UsernameNotFoundException.class,
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse notFoundException(RuntimeException ex) {
@@ -46,6 +46,18 @@ public class GlobalExceptionHandler {
                 .errors(errorList)
                 .build();
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RoleNotPermisionException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleRoleNotPermisionException(RoleNotPermisionException ex) {
+        return new ErrorResponse
+                .Builder()
+                .timestamp(LocalDateTime.now())
+                .code(HttpStatus.FORBIDDEN.value())
+                .status(HttpStatus.FORBIDDEN.name())
+                .errors(List.of(ex.getMessage()))
+                .build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

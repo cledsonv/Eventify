@@ -3,6 +3,8 @@ package com.eventify.eventify.Features.Event.DTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.Date;
+
 public class EventDTO {
 
     private Long id;
@@ -12,16 +14,13 @@ public class EventDTO {
     private String name;
 
     @NotNull(message = "Date cannot be null")
-    private String date;  // Adjust to Date with proper formatting
+    private Date date;  // Adjust to Date with proper formatting
 
     @NotNull(message = "Location cannot be null")
     private String location;
 
     @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
-
-    @NotNull(message = "Organizer ID cannot be null")
-    private Long organizerId;
 
 
     public Long getId() {
@@ -40,11 +39,11 @@ public class EventDTO {
         this.name = name;
     }
 
-    public @NotNull(message = "Date cannot be null") String getDate() {
+    public @NotNull(message = "Date cannot be null") Date getDate() {
         return date;
     }
 
-    public void setDate(@NotNull(message = "Date cannot be null") String date) {
+    public void setDate(@NotNull(message = "Date cannot be null") Date date) {
         this.date = date;
     }
 
@@ -64,12 +63,5 @@ public class EventDTO {
         this.description = description;
     }
 
-    public @NotNull(message = "Organizer ID cannot be null") Long getOrganizerId() {
-        return organizerId;
-    }
-
-    public void setOrganizerId(@NotNull(message = "Organizer ID cannot be null") Long organizerId) {
-        this.organizerId = organizerId;
-    }
 }
 

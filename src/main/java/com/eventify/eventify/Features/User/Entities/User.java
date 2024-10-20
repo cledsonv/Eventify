@@ -38,7 +38,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Event> eventsOrganized;
 
-    // Construtor padrão
     public User() {}
 
     // Construtor com parâmetros

@@ -1,7 +1,12 @@
 package com.eventify.eventify.Features.Event.Services;
 
+import com.eventify.eventify.Core.Exception.ItemNotFoundException;
+import com.eventify.eventify.Core.Exception.RoleNotPermisionException;
 import com.eventify.eventify.Features.Event.Entities.Event;
 import com.eventify.eventify.Features.Event.Repositories.EventRepository;
+import com.eventify.eventify.Features.User.Entities.User;
+import com.eventify.eventify.Features.User.Enum.Role;
+import com.eventify.eventify.Features.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +15,15 @@ import java.util.Optional;
 
 @Service
 public class EventService {
-    @Autowired
-    private EventRepository eventRepository;
+
+    private final EventRepository eventRepository;
+
+    private final UserService userService;
+
+    EventService(EventRepository eventRepository, UserService userService) {
+        this.eventRepository = eventRepository;
+        this.userService = userService;
+    }
 
     public Event createEvent(Event event) {
         return eventRepository.save(event);
@@ -22,10 +34,21 @@ public class EventService {
     }
 
     public Optional<Event> getEvent(Long id) {
-        return eventRepository.findById(id);
+        Optional<Event> event = eventRepository.findById(id);
+        if(event.isEmpty()){
+            throw new ItemNotFoundException("Evento não encontrado");
+        }
+        return event;
     }
 
-    public void deleteEvent(Long id) {
+    public void deleteEvent(Long id, User user) {
+        Optional<Event> event = eventRepository.findById(id);
+        if (event.isEmpty()) {
+            throw new ItemNotFoundException("Evento não encontrado");
+        }
+        if (!user.getId().equals(event.get().getOrganizer().getId())  && user.getRole() != Role.ADMIN) {
+            throw new RoleNotPermisionException("Apenas o organizador pode deletar o evento.");
+        }
         eventRepository.deleteById(id);
     }
 }

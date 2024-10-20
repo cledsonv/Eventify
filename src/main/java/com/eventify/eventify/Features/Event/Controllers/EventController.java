@@ -1,7 +1,13 @@
 package com.eventify.eventify.Features.Event.Controllers;
+
+import com.eventify.eventify.Core.Exception.RoleNotPermisionException;
 import com.eventify.eventify.Features.Event.DTO.EventDTO;
+import com.eventify.eventify.Features.Event.DTO.EventDTOResponse;
+import com.eventify.eventify.Features.User.Enum.Role;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.eventify.eventify.Features.Event.Entities.Event;
 import com.eventify.eventify.Features.Event.Services.EventService;
@@ -14,55 +20,51 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/events")
 public class EventController {
-    @Autowired
-    private EventService eventService;
+
+    private final EventService eventService;
+
+    private final ModelMapper modelMapper;
+
+    public EventController(EventService eventService, ModelMapper modelMapper) {
+        this.eventService = eventService;
+        this.modelMapper = modelMapper;
+    }
 
     @PostMapping
-    public EventDTO createEvent(@Valid @RequestBody EventDTO eventDTO) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public EventDTOResponse createEvent(@Valid @RequestBody EventDTO eventDTO,  @AuthenticationPrincipal User user) {
+        if (user.getRole() != Role.ORGANIZADOR && user.getRole() != Role.ADMIN) {
+            throw new RoleNotPermisionException("Apenas organizadores podem criar eventos.");
+        }
         Event event = convertToEntity(eventDTO);
+        event.setOrganizer(user);
         Event savedEvent = eventService.createEvent(event);
         return convertToDTO(savedEvent);
     }
 
     @GetMapping
-    public List<EventDTO> listEvents() {
+    public List<EventDTOResponse> listEvents() {
         return eventService.listEvents().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Optional<EventDTO> getEvent(@PathVariable Long id) {
+    public Optional<EventDTOResponse> getEvent(@PathVariable Long id) {
         return eventService.getEvent(id).map(this::convertToDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvent(@PathVariable Long id) {
-        eventService.deleteEvent(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvent(@PathVariable Long id, @AuthenticationPrincipal User user) {
+        eventService.deleteEvent(id, user);
     }
 
-    // Conversion between DTO and Entity
-    private EventDTO convertToDTO(Event event) {
-        EventDTO dto = new EventDTO();
-        dto.setId(event.getId());
-        dto.setName(event.getName());
-        dto.setDate(event.getDate().toString());
-        dto.setLocation(event.getLocation());
-        dto.setDescription(event.getDescription());
-        dto.setOrganizerId(event.getOrganizer().getId());
-        return dto;
+    private EventDTOResponse convertToDTO(Event event) {
+        return modelMapper.map(event, EventDTOResponse.class);
     }
 
     private Event convertToEntity(EventDTO dto) {
-        Event event = new Event();
-        event.setId(dto.getId());
-        event.setName(dto.getName());
-        event.setDate(java.sql.Date.valueOf(dto.getDate()));
-        event.setLocation(dto.getLocation());
-        event.setDescription(dto.getDescription());
-        User organizer = new User();
-        organizer.setId(dto.getOrganizerId());
-        event.setOrganizer(organizer);
-        return event;
+        return modelMapper.map(dto, Event.class);
     }
 }
