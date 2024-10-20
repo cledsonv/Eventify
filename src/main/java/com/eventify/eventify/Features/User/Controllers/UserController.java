@@ -1,5 +1,6 @@
 package com.eventify.eventify.Features.User.Controllers;
 
+import com.eventify.eventify.Core.Exception.RoleNotPermisionException;
 import com.eventify.eventify.Features.User.Dtos.*;
 import com.eventify.eventify.Features.User.Entities.User;
 import com.eventify.eventify.Features.User.Enum.Role;
@@ -7,6 +8,7 @@ import com.eventify.eventify.Features.User.Service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +28,9 @@ public class UserController {
     }
 
     @PutMapping("/update-role")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDTOResponse updateUserRole(@RequestBody UpdateRoleDTO updateRoleDTO) {
-        User user = userService.updateUserRole(updateRoleDTO.email(), updateRoleDTO.role());
-        return convertToDTO(user);
+    public UserDTOResponse updateUserRole(@RequestBody UpdateRoleDTO updateRoleDTO,  @AuthenticationPrincipal User user) {
+        User userUpdate = userService.updateUserRole(updateRoleDTO.email(), updateRoleDTO.role(), user);
+        return convertToDTO(userUpdate);
     }
 
     @PostMapping("/register")
@@ -43,34 +44,32 @@ public class UserController {
 
     @PostMapping("/login")
     public LoginDTOResponse login(@Valid @RequestBody UserLoginDTO loginDTO) {
-        User user = userService.authenticate(loginDTO.getEmail(), loginDTO.getPassword());
-        String token = userService.generateToken(user);
+        String token =userService.singIn(loginDTO.getEmail(), loginDTO.getPassword());
         return new LoginDTOResponse(token);
     }
 
 
     @GetMapping
-    public List<UserDTOResponse> getUsers() {
-        return userService.getUsers().stream().map(this::convertToDTO).toList();
+    public List<UserDTOResponse> getUsers(@AuthenticationPrincipal User user) {
+        return userService.getUsers(user).stream().map(this::convertToDTO).toList();
     }
 
     @GetMapping("/{id}")
-    public UserDTOResponse getUser(@PathVariable Long id) {
-        User user = userService.getUser(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public UserDTOResponse getUser(@PathVariable Long id, @AuthenticationPrincipal User authUser) {
+        User user = userService.getUser(id, authUser);
         return convertToDTO(user);
     }
 
     @PutMapping("/{id}")
-    public UserDTOResponse updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
-        User user = convertToEntity(userDTO);
-        User updatedUser = userService.updateUser(id, user);
+    public UserDTOResponse updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUser updateUser, @AuthenticationPrincipal User authUser) {
+        User updatedUser = userService.updateUser(id, updateUser, authUser);
         return convertToDTO(updatedUser);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public void deleteUser(@PathVariable Long id, @AuthenticationPrincipal User authUser) {
+        userService.deleteUser(id, authUser);
     }
 
     private UserDTOResponse convertToDTO(User user) {
