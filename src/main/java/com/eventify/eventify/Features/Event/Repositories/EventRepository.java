@@ -7,5 +7,5 @@ import com.eventify.eventify.Features.Event.Entities.Event;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    List<Event> findByOrganizador(User organizador);
+    List<Event> findByOrganizer(User organizer);
 }

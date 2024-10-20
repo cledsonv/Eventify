@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
-    List<Registration> findByEvento(Event evento);
-    List<Registration> findByUsuario(User usuario);
+    List<Registration> findByEvent(Event evento);
+    List<Registration> findByUser(User usuario);
 }
