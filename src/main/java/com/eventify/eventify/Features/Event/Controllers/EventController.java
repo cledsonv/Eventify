@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.*;
 import com.eventify.eventify.Features.Event.Entities.Event;
 import com.eventify.eventify.Features.Event.Services.EventService;
 
-
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping("/events")
 public class EventController {
