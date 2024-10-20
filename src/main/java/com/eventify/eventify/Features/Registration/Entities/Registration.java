@@ -9,20 +9,19 @@ import java.util.Date;
 
 @Entity
 public class Registration {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private User usuario;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "evento_id")
-    private Event evento;
+    @JoinColumn(name = "event_id")
+    private Event event;
 
-    private Date dataInscricao;
+    private Date registrationDate;
 
     public Long getId() {
         return id;
@@ -32,27 +31,27 @@ public class Registration {
         this.id = id;
     }
 
-    public User getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Event getEvento() {
-        return evento;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEvento(Event evento) {
-        this.evento = evento;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
-    public Date getDataInscricao() {
-        return dataInscricao;
+    public Date getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setDataInscricao(Date dataInscricao) {
-        this.dataInscricao = dataInscricao;
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

@@ -1,5 +1,6 @@
 package com.eventify.eventify.Features.Event.Controllers;
 import com.eventify.eventify.Features.Event.DTO.EventDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.eventify.eventify.Features.Event.Entities.Event;
@@ -17,7 +18,7 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public EventDTO createEvent(@RequestBody EventDTO eventDTO) {
+    public EventDTO createEvent(@Valid @RequestBody EventDTO eventDTO) {
         Event event = convertToEntity(eventDTO);
         Event savedEvent = eventService.createEvent(event);
         return convertToDTO(savedEvent);
@@ -40,28 +41,28 @@ public class EventController {
         eventService.deleteEvent(id);
     }
 
-    // Conversão de DTO para entidade e vice-versa
+    // Conversion between DTO and Entity
     private EventDTO convertToDTO(Event event) {
         EventDTO dto = new EventDTO();
         dto.setId(event.getId());
-        dto.setNome(event.getNome());
-        dto.setData(event.getData().toString());
-        dto.setLocal(event.getLocal());
-        dto.setDescricao(event.getDescricao());
-        dto.setOrganizadorId(event.getOrganizador().getId());
+        dto.setName(event.getName());
+        dto.setDate(event.getDate().toString());
+        dto.setLocation(event.getLocation());
+        dto.setDescription(event.getDescription());
+        dto.setOrganizerId(event.getOrganizer().getId());
         return dto;
     }
 
     private Event convertToEntity(EventDTO dto) {
         Event event = new Event();
         event.setId(dto.getId());
-        event.setNome(dto.getNome());
-        event.setData(java.sql.Date.valueOf(dto.getData()));
-        event.setLocal(dto.getLocal());
-        event.setDescricao(dto.getDescricao());
-        User organizador = new User();
-        organizador.setId(dto.getOrganizadorId());
-        event.setOrganizador(organizador);
+        event.setName(dto.getName());
+        event.setDate(java.sql.Date.valueOf(dto.getDate()));
+        event.setLocation(dto.getLocation());
+        event.setDescription(dto.getDescription());
+        User organizer = new User();
+        organizer.setId(dto.getOrganizerId());
+        event.setOrganizer(organizer);
         return event;
     }
 }

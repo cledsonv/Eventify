@@ -1,10 +1,20 @@
 package com.eventify.eventify.Features.Registration.DTO;
 
+import jakarta.validation.constraints.NotNull;
+
 public class RegistrationDTO {
+
+
     private Long id;
-    private Long usuarioId;
-    private Long eventoId;
-    private String dataInscricao;
+
+    @NotNull(message = "User ID cannot be null")
+    private Long userId;
+
+    @NotNull(message = "Event ID cannot be null")
+    private Long eventId;
+
+    @NotNull(message = "Registration date cannot be null")
+    private String registrationDate;
 
     public Long getId() {
         return id;
@@ -14,27 +24,27 @@ public class RegistrationDTO {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public @NotNull(message = "User ID cannot be null") Long getUserId() {
+        return userId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(@NotNull(message = "User ID cannot be null") Long userId) {
+        this.userId = userId;
     }
 
-    public Long getEventoId() {
-        return eventoId;
+    public @NotNull(message = "Event ID cannot be null") Long getEventId() {
+        return eventId;
     }
 
-    public void setEventoId(Long eventoId) {
-        this.eventoId = eventoId;
+    public void setEventId(@NotNull(message = "Event ID cannot be null") Long eventId) {
+        this.eventId = eventId;
     }
 
-    public String getDataInscricao() {
-        return dataInscricao;
+    public @NotNull(message = "Registration date cannot be null") String getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setDataInscricao(String dataInscricao) {
-        this.dataInscricao = dataInscricao;
+    public void setRegistrationDate(@NotNull(message = "Registration date cannot be null") String registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }
