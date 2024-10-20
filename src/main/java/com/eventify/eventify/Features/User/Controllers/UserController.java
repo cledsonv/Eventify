@@ -1,21 +1,16 @@
 package com.eventify.eventify.Features.User.Controllers;
 
-import com.eventify.eventify.Features.User.Dtos.LoginDTOResponse;
-import com.eventify.eventify.Features.User.Dtos.UserDTO;
-import com.eventify.eventify.Features.User.Dtos.UserDTOResponse;
-import com.eventify.eventify.Features.User.Dtos.UserLoginDTO;
+import com.eventify.eventify.Features.User.Dtos.*;
 import com.eventify.eventify.Features.User.Entities.User;
 import com.eventify.eventify.Features.User.Enum.Role;
 import com.eventify.eventify.Features.User.Service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -31,10 +26,9 @@ public class UserController {
     }
 
     @PutMapping("/update-role")
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTOResponse updateUserRole(@RequestParam String email, @RequestParam Role role) {
-        User user = userService.updateUserRole(email, role);
+    public UserDTOResponse updateUserRole(@RequestBody UpdateRoleDTO updateRoleDTO) {
+        User user = userService.updateUserRole(updateRoleDTO.email(), updateRoleDTO.role());
         return convertToDTO(user);
     }
 

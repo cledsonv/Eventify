@@ -1,5 +1,6 @@
 package com.eventify.eventify.Features.User.Service;
 
+import com.eventify.eventify.Core.Exception.ItemNotFoundException;
 import com.eventify.eventify.Core.Security.JwtUtil;
 import com.eventify.eventify.Features.User.Entities.User;
 import com.eventify.eventify.Features.User.Enum.Role;
@@ -71,6 +72,10 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    Optional<User> user =   userRepository.findById(id);
+    if(user.isEmpty()){
+        throw new ItemNotFoundException("Usuário não encontrado");
+    }
+       userRepository.deleteById(id);
     }
 }
