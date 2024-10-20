@@ -2,8 +2,10 @@ package com.eventify.eventify.Features.Registration.DTO;
 
 import jakarta.validation.constraints.NotNull;
 
-public class RegistrationDTO {
+import java.time.LocalDate;
+import java.util.Date;
 
+public class RegistrationDTO {
 
     private Long id;
 
@@ -14,7 +16,7 @@ public class RegistrationDTO {
     private Long eventId;
 
     @NotNull(message = "Registration date cannot be null")
-    private String registrationDate;
+    private LocalDate createdAt;
 
     public Long getId() {
         return id;
@@ -40,11 +42,11 @@ public class RegistrationDTO {
         this.eventId = eventId;
     }
 
-    public @NotNull(message = "Registration date cannot be null") String getRegistrationDate() {
-        return registrationDate;
+    public @NotNull(message = "Registration date cannot be null") LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setRegistrationDate(@NotNull(message = "Registration date cannot be null") String registrationDate) {
-        this.registrationDate = registrationDate;
+    public void setCreatedAt(@NotNull(message = "Registration date cannot be null") LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -5,6 +5,7 @@ import com.eventify.eventify.Features.User.Entities.User;
 import jakarta.persistence.*;
 
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -14,14 +15,14 @@ public class Registration {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    private Date registrationDate;
+    private LocalDate createdAt;
 
     public Long getId() {
         return id;
@@ -47,11 +48,11 @@ public class Registration {
         this.event = event;
     }
 
-    public Date getRegistrationDate() {
-        return registrationDate;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 }

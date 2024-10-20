@@ -1,5 +1,6 @@
 package com.eventify.eventify.Features.User.Entities;
 
+import com.eventify.eventify.Features.Registration.Entities.Registration;
 import com.eventify.eventify.Features.User.Enum.Role;
 import com.eventify.eventify.Features.Event.Entities.Event;
 import jakarta.persistence.*;
@@ -37,6 +38,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Event> eventsOrganized;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Registration> registrations;
 
     public User() {}
 

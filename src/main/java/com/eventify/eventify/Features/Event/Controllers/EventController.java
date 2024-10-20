@@ -3,6 +3,7 @@ package com.eventify.eventify.Features.Event.Controllers;
 import com.eventify.eventify.Core.Exception.RoleNotPermisionException;
 import com.eventify.eventify.Features.Event.DTO.EventDTO;
 import com.eventify.eventify.Features.Event.DTO.EventDTOResponse;
+import com.eventify.eventify.Features.User.Dtos.UserDTOEvent;
 import com.eventify.eventify.Features.User.Enum.Role;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -58,6 +59,18 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEvent(@PathVariable Long id, @AuthenticationPrincipal User user) {
         eventService.deleteEvent(id, user);
+    }
+
+    @GetMapping("/{eventId}/users")
+    public List<UserDTOEvent> listEventUsers(@PathVariable Long eventId) {
+        List<User> users = eventService.listEventUsers(eventId);
+        return users.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTOEvent convertToDTO(User user) {
+        return modelMapper.map(user, UserDTOEvent.class);
     }
 
     private EventDTOResponse convertToDTO(Event event) {
