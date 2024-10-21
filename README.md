@@ -1,4 +1,3 @@
-Mande o arquivo txt com as marcaçoes para por no readme do meu githuib
 
 # Eventify
 
