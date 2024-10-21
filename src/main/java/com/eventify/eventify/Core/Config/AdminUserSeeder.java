@@ -1,4 +1,4 @@
-package com.eventify.eventify.Config;
+package com.eventify.eventify.Core.Config;
 
 import com.eventify.eventify.Features.User.Entities.User;
 import com.eventify.eventify.Features.User.Enum.Role;
